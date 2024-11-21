@@ -1,10 +1,23 @@
-import Pagination from "@/components/pagination"
-import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Helmet } from "react-helmet-async"
-import OrderTableFilters from "./order-table-filters"
-import OrderTableRow from "./order-table-row"
+import Pagination from "@/components/pagination";
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Helmet } from "react-helmet-async";
+import OrderTableFilters from "./order-table-filters";
+import OrderTableRow from "./order-table-row";
+import { useQuery } from "@tanstack/react-query";
+import { getOrders } from "@/api/get-orders";
 
 const Orders = () => {
+  const { data: result } = useQuery({
+    queryKey: ["orders"],
+    queryFn: getOrders,
+  });
+
   return (
     <>
       <Helmet title="Pedidos" />
@@ -12,7 +25,7 @@ const Orders = () => {
         <h1 className="text-3xl font-bold tracking-tight">Pedidos</h1>
         <div className="space-y-2.5">
           <OrderTableFilters />
-          <div className="border rounded-md">
+          <div className="rounded-md border">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -27,9 +40,10 @@ const Orders = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {Array.from({ length: 10 }).map((_, i) => (
-                  <OrderTableRow key={i} />
-                ))}
+                {result &&
+                  result.orders.map((order) => (
+                    <OrderTableRow key={order.orderId} order={order} />
+                  ))}
               </TableBody>
             </Table>
           </div>
@@ -37,7 +51,7 @@ const Orders = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Orders
+export default Orders;

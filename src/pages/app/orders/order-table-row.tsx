@@ -1,10 +1,23 @@
+import OrderStatus from "@/components/order-status";
 import OrderDetails from "./order-details";
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogTrigger } from "@/components/ui/dialog"
-import { TableCell, TableRow } from "@/components/ui/table"
-import { ArrowRight, Search, X } from "lucide-react"
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { TableCell, TableRow } from "@/components/ui/table";
+import { ArrowRight, Search, X } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
-const OrderTableRow = () => {
+export interface OrderTableRowProps {
+  order: {
+    orderId: string;
+    createdAt: string;
+    status: "pending" | "canceled" | "processing" | "delivering" | "delivered";
+    customerName: string;
+    total: number;
+  };
+}
+
+const OrderTableRow = ({ order }: OrderTableRowProps) => {
   return (
     <TableRow>
       <TableCell>
@@ -19,19 +32,24 @@ const OrderTableRow = () => {
           <OrderDetails />
         </Dialog>
       </TableCell>
-      <TableCell className="font-mono text-xs font-medium">uh93fhfrnuf0jhfhe0</TableCell>
-      <TableCell className="text-muted-foreground">há 15 minutos</TableCell>
+      <TableCell className="font-mono text-xs font-medium">
+        {order.orderId}
+      </TableCell>
+      <TableCell className="text-muted-foreground">
+        {formatDistanceToNow(order.createdAt, {
+          locale: ptBR,
+          addSuffix: true,
+        })}
+      </TableCell>
       <TableCell>
-        <div className="flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full bg-slate-400"></span>
-          <span className="font-medium text-muted-foreground">Pendente</span>
-        </div>
+        <OrderStatus status={order.status} />
       </TableCell>
+      <TableCell className="font-medium">{order.customerName}</TableCell>
       <TableCell className="font-medium">
-        Diego Schell Fernandes
-      </TableCell>
-      <TableCell className="font-medium">
-        R$ 149,90
+        {order.total.toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        })}
       </TableCell>
       <TableCell>
         <Button variant="outline" size="xs">
@@ -46,7 +64,7 @@ const OrderTableRow = () => {
         </Button>
       </TableCell>
     </TableRow>
-  )
-}
+  );
+};
 
-export default OrderTableRow
+export default OrderTableRow;
