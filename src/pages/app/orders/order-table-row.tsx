@@ -42,7 +42,7 @@ const OrderTableRow = ({ order }: OrderTableRowProps) => {
         ...cacheData,
         orders: cacheData.orders.map((order) => {
           if (order.orderId === orderId) {
-            return { ...order, status: "canceled" };
+            return { ...order, status };
           }
 
           return order;
@@ -57,12 +57,14 @@ const OrderTableRow = ({ order }: OrderTableRowProps) => {
       updateOrderStatusOnCache(orderId, "canceled");
     },
   });
+
   const { mutateAsync: approveFn, isPending: isApprovingOrder } = useMutation({
     mutationFn: approveOrder,
     async onSuccess(_, { orderId }) {
       updateOrderStatusOnCache(orderId, "processing");
     },
   });
+
   const { mutateAsync: dispatchFn, isPending: isDispatchingOrder } =
     useMutation({
       mutationFn: dispatchOrder,
@@ -70,9 +72,11 @@ const OrderTableRow = ({ order }: OrderTableRowProps) => {
         updateOrderStatusOnCache(orderId, "delivering");
       },
     });
+
   const { mutateAsync: deliverFn, isPending: isDeliveringOrder } = useMutation({
     mutationFn: deliverOrder,
     async onSuccess(_, { orderId }) {
+      console.log("Entregue", orderId);
       updateOrderStatusOnCache(orderId, "delivered");
     },
   });

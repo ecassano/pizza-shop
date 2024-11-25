@@ -5,5 +5,5 @@ export interface DispatchOrderProps {
 }
 
 export const dispatchOrder = async ({ orderId }: DispatchOrderProps) => {
-  await api.patch(`/orders/${orderId}/cancel`);
+  await api.patch(`/orders/${orderId}/dispatch`);
 };
