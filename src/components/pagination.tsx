@@ -24,7 +24,7 @@ const Pagination = ({
   return (
     <div className="flex items-center justify-between">
       <span className="text-sm text-muted-foreground">
-        Total de {totalCount} items(s)
+        Total de {totalCount} item(s)
       </span>
 
       <div className="flex items-center gap-6 lg:gap-8">
@@ -66,7 +66,7 @@ const Pagination = ({
             disabled={pages <= pageIndex + 1}
           >
             <ChevronsRight className="h-4 w-4" />
-            <span className="sr-only">Última Página</span>
+            <span className="sr-only">Última página</span>
           </Button>
         </div>
       </div>

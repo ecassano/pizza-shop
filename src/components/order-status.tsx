@@ -41,7 +41,7 @@ const OrderStatus = ({ status }: OrderStatusProps) => {
       {["processing", "delivering"].includes(status) && (
         <span
           data-testid="badge"
-          className="h-2 w-2 rounded-full bg-amber-400"
+          className="h-2 w-2 rounded-full bg-amber-500"
         ></span>
       )}
       <span className="font-medium text-muted-foreground">
