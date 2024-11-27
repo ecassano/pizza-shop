@@ -74,7 +74,7 @@ const StoreProfileDialog = () => {
 
       toast.success('Perfil atualizado com sucesso!')
     } catch {
-      toast.error('Perfil atualizado com sucesso!')
+      toast.error('Falha ao atualizar o perfil, tente novamente')
     }
   }
 
